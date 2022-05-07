@@ -6,6 +6,5 @@ cd (scriptFolder);
 importar_curvas;
 importar_consumos;
 importar_TTFTTR;
-[genrand, ONOFF]=aleatorizargeneracion(generacion,TTF,TTR);
 
 cd (projectFolder);

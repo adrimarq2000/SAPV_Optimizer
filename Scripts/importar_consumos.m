@@ -28,7 +28,7 @@ opts = setvaropts(opts, "Fecha", "InputFormat", "dd/MM/yyyy HH:mm");
 % Import the data
 folder=strcat(dataFolder,"\Consumos.csv");
 Consumos = readtable(folder, opts);
-consumos = table2array(Consumos(:,3));
+dataConsumos = table2array(Consumos(:,3));
 
 %% Clear temporary variables
 clear opts
