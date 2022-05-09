@@ -5,12 +5,13 @@ SOC = zeros([8760 1]);
 nF = zeros([8760 1]);
 nIDG = zeros([8760 1]);
 
+% aleatorizar generación y disponibilidad de la instalción fotovoltaica
 if aleatorizar
     cd (scriptFolder);
     [genrand, ONOFF]=aleatorizargeneracion(dataGeneracion,TTF,TTR);
     cd (projectFolder);
 end
-
+ % normalizar valores de datos a la instalacion de ensayo
 demanda=dataConsumos/max(dataConsumos)*Pdmax;
 generacion=genrand.*ONOFF/max(genrand)*PgBasemax;
 
@@ -88,13 +89,13 @@ for n = 2:8760
         nIDG(n) = 0;
     end
 end
-%% Sacar estadísticas totales
+%% Saca resultados totales
 ENAt = sum(ENA);
 ENSt = sum(ENS);
 HNA = find(ENA);
 HNA = numel(HNA);
 HNS = find(ENS);
 LOLE = numel(HNS);
-LOLP = LOLE/8.76;
+LOLP = LOLE/87.6;
 nFt=max(nF);
 nIDGt=max(nIDG);

@@ -1,4 +1,4 @@
-function [genrand,ON_OFF] = aleatorizargeneracion(generacion,TTF,TTR)
+function [genrand,OnOff] = aleatorizargeneracion(generacion,TTF,TTR)
     %%Aleatorizar la generación de energía
     genrand = zeros(8760,1);
     diasmes= [30,31,30,31,31,30,31,30,31,31,28,31]; %considerando que los datos comienzan en abril
@@ -22,38 +22,39 @@ function [genrand,ON_OFF] = aleatorizargeneracion(generacion,TTF,TTR)
         clear rank;
     end
     %% Aleatorizar la disponibilidad de fotovoltaica
-    pos= int8(100*rand);
-    ttf0=TTF(pos);
+    pos = round(1+99*rand);
+    ttf0 = round(TTF(pos));
     modo = 1;
     nf = 0;
     n = 1;
-    ni = 1;
-    ON_OFF(n)=1;
-    n=n+1;
+    ni = 0;
+    OnOff(n) = 1;
+    n = n + 1;
+    ni = ni + 1;
     while n<=8760
         if modo == 1
-            if (ni<ttf0 || (ON_OFF(n-1)==0 && ni >=ttf0))
-                ON_OFF(n)=1;
+            if ni < ttf0 | ((genrand(n) == 0) && (ni >=ttf0))
+                OnOff(n)=1;
                 ni = ni + 1;
                 n = n + 1;
             else
                 modo = 0;
-                ttr0 = TTR(pos + nf);
+                ttr0 = round(TTR(pos + nf));
                 ni=0;
             end
         elseif modo == 0
             if ni < ttr0
-                ON_OFF(n)=0;
+                OnOff(n)=0;
                 ni = ni + 1;
                 n = n + 1;
             else
                 modo = 1;
                 nf = nf + 1;
-                ttf0 = TTF(pos + nf);
+                ttf0 = round(TTF(pos + nf));
                 ni = 0;
             end
         end
     end
-    ON_OFF = transpose(ON_OFF);
+    OnOff = transpose(OnOff);
 end
 
