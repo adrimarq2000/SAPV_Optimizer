@@ -88,3 +88,13 @@ for n = 2:8760
         nIDG(n) = 0;
     end
 end
+%% Sacar estadísticas totales
+ENAt = sum(ENA);
+ENSt = sum(ENS);
+HNA = find(ENA);
+HNA = numel(HNA);
+HNS = find(ENS);
+LOLE = numel(HNS);
+LOLP = LOLE/8.76;
+nFt=max(nF);
+nIDGt=max(nIDG);
