@@ -80,13 +80,13 @@ for n = 2:8760
     if (ONOFF(n) == 0) && (ONOFF(n-1)==1)
         nF(n) = nF(n-1) + 1;
     else
-        nF(n) = 0;
+        nF(n) = nF(n-1);
     end
     
     if (almacenamiento(n) == capacidadMin) && (almacenamiento(n-1) > capacidadMin)
         nIDG(n) = nIDG(n-1) + 1;
     else
-        nIDG(n) = 0;
+        nIDG(n) = nIDG(n-1);
     end
 end
 %% Saca resultados totales
