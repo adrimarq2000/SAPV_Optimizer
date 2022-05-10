@@ -18,9 +18,9 @@ generacion=genrand.*ONOFF/max(genrand)*PgBasemax;
 %% calcular primer punto con parámetros iniciales
 n=1;
 if generacion(n) >= demanda(n)
-    almacenamiento(n) = min(capacidadMax, capInicial + (generacion(n) - demanda(n))*rendIn);
+    almacenamiento(n) = min(capInicial + (generacion(n) - demanda(n))*rendIn , capacidadMax);
 elseif generacion(n) < demanda(n)
-    almacenamiento(n) = max(capacidadMin, capInicial + (generacion(n) - demanda(n))*rendOut);
+    almacenamiento(n) = max(capacidadMin, capInicial - (demanda(n) - generacion(n))/rendOut);
 else
     disp('ERROR en datos de generacion/demanda');
     return;
@@ -38,7 +38,7 @@ else
     ENA(n) = (generacion(n) - demanda(n))*rendIn - (almacenamiento(n) - capInicial);
 end
 
-SOC(n)=almacenamiento(n)/capacidadMax;
+SOC(n)=100*almacenamiento(n)/capacidadMax;
 
 if ONOFF(n) == 0
     nF(n) = 1;
@@ -57,7 +57,7 @@ for n = 2:8760
     if generacion(n) >= demanda(n)
             almacenamiento(n) = min(capacidadMax, almacenamiento(n-1) + (generacion(n) - demanda(n))*rendIn);
     elseif generacion(n) < demanda(n)
-        almacenamiento(n) = max(capacidadMin, almacenamiento(n-1) + (generacion(n) - demanda(n))*rendOut);
+        almacenamiento(n) = max(capacidadMin, almacenamiento(n-1) - (demanda(n) - generacion(n))/rendOut);
     else
         disp('ERROR en datos de generacion/demanda');
         return;
@@ -75,7 +75,7 @@ for n = 2:8760
         ENA(n) = (generacion(n) - demanda(n))*rendIn - (almacenamiento(n) - almacenamiento(n-1));
     end
     
-    SOC(n)=almacenamiento(n)/capacidadMax;
+    SOC(n)=100*almacenamiento(n)/capacidadMax;
     
     if (ONOFF(n) == 0) && (ONOFF(n-1)==1)
         nF(n) = nF(n-1) + 1;
@@ -92,10 +92,23 @@ end
 %% Saca resultados totales
 ENAt = sum(ENA);
 ENSt = sum(ENS);
-HNA = find(ENA);
-HNA = numel(HNA);
-HNS = find(ENS);
-LOLE = numel(HNS);
+HNA=0;
+HNS=0;
+for i = 1:8760
+    if ENA(i)> 0.01
+        HNA = HNA+1;
+    else
+        HNA = HNA;
+    end
+end
+for i = 1:8760
+    if ENS(i) > 0.01
+        HNS = HNS+1;
+    else
+        HNS = HNS;
+    end
+end
+LOLE=HNS;
 LOLP = LOLE/87.6;
 nFt=max(nF);
 nIDGt=max(nIDG);
