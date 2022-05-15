@@ -112,3 +112,6 @@ LOLE=HNS;
 LOLP = LOLE/87.6;
 nFt=max(nF);
 nIDGt=max(nIDG);
+
+clear i;
+clear n;
