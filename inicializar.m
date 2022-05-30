@@ -3,9 +3,16 @@ scriptFolder=strcat(projectFolder,"\Scripts");
 dataFolder=strcat(projectFolder,"\Data");
 cd (scriptFolder);
 
-importar_curvas;
+if metodo == 0 
+    importar_curvas;
+else
+    importar_PVGIS;
+    PgBasemax = potenciaNominal*npaneles;
+end
+
 importar_consumos;
 importar_TTFTTR;
+
 
 cd (projectFolder);
 

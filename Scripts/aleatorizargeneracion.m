@@ -1,8 +1,12 @@
-function [genrand,OnOff] = aleatorizargeneracion(generacion,TTF,TTR)
+function [genrand,OnOff] = aleatorizargeneracion(generacion,metodo,TTF,TTR)
     %%Aleatorizar la generación de energía
     genrand = zeros(8760,1);
-    diasmes= [30,31,30,31,31,30,31,30,31,31,28,31]; %considerando que los datos comienzan en abril
-    ref=0;
+    if metodo == 0
+        diasmes= [30,31,30,31,31,30,31,30,31,31,28,31];
+    else
+        diasmes= [31,28,31,30,31,30,31,31,30,31,30,31];
+    end
+        ref=0;
     for mes = 1:12
         for d = 1:diasmes(mes)
             rnd(d)=rand;

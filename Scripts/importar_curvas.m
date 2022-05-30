@@ -1,6 +1,5 @@
 %% Import data from text file
-% Script for importing data from the following text file:
-%
+
 projectFolder = fileparts(pwd);
 scriptFolder=strcat(projectFolder,"\Scripts");
 dataFolder=strcat(projectFolder,"\Data");
