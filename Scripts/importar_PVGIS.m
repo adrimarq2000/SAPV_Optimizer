@@ -45,7 +45,7 @@ for mes = 1:12
     for d = 1:diasmes(mes)
         for h = 1:24
             tc = temperatura((d-1)*24+h,mes) + 0.03125*irradiancia((d-1)*24+h,mes);
-            dataGeneracion((d-1)*24+h,mes) = potenciaNominal*(irradiancia((d-1)*24+h,mes)/1000)*(1+((ktempPotencia/100)*(tc-25)));
+            dataGeneracion((d-1)*24+h,mes) = (irradiancia((d-1)*24+h,mes)/1000)*(1+((ktempPotencia/100)*(tc-25)));
         end
     end
     ref=ref+diasmes(mes);    

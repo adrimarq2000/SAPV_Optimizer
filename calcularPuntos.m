@@ -13,7 +13,7 @@ if aleatorizar
 end
  % normalizar valores de datos a la instalacion de ensayo
 demanda=dataConsumos/max(dataConsumos)*Pdmax;
-generacion=genrand.*ONOFF/max(genrand)*PgBasemax;
+generacion=genrand.*ONOFF*PgBasemax;
 
 %% calcular primer punto con parámetros iniciales
 n=1;
