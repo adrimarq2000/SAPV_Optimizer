@@ -10,10 +10,10 @@ costeBateria=precioWh*capacidadMax;
 litrosCombustible=mean(Resultados.ENS)*consumoGrupo/1000;
 costeCombustible=precioCombustible*litrosCombustible;
 
-inversionInicial = costePaneles + costeBateria;
+inversionInicial = costePaneles + costeBateria + precioInversor + precioRegulador;
 costeVariable = costeCombustible + costeMantenimiento;
 ANF = (tasaInteres * (1 + tasaInteres))/((1 + tasaInteres) - 1);
-LCOE = 1000*((inversionInicial*ANF) + costeVariable)/sum(genrand);
-
+LCOE = 1000*((inversionInicial*ANF) + costeVariable)/(sum(genrand)*PgBasemax-ENAt);
+costeAnual = costePaneles/vidaPv + costeBateria/vidaBat + costeCombustible;
 
 fiabilidad = 100-mean(Resultados.LOLP);
