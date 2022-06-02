@@ -1,6 +1,5 @@
 %% Import data from text file
-% Script for importing data from the following text file:
-%
+
 projectFolder = fileparts(pwd);
 scriptFolder=strcat(projectFolder,"\Scripts");
 dataFolder=strcat(projectFolder,"\Data");
@@ -41,7 +40,7 @@ opts = setvaropts(opts, ["VarName2", "VarName3","VarName6", "VarName7","VarName1
 folder=strcat(dataFolder,"\Curvas.csv");
 Curvas = readtable(folder, opts);
 dataGeneracion = table2array(Curvas(:,[3,7,11,15,19,23,27,31,35,39,43,47]));
-
+dataGeneracion = dataGeneracion.*(1/max(max(dataGeneracion)));
 %% Clear temporary variables
 clear opts
 clear folder
