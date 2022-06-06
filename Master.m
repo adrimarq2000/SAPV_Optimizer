@@ -27,7 +27,7 @@ tasaInteres = 0.05;
 
 % Parametros simulacion
 aleatorizar = 1;
-iteraciones = 500;
+iteraciones = 100;
     %método adquisicion de datos 0
     %metodo datos irradiancia 1
 metodo = 1;
@@ -114,12 +114,12 @@ else
     
     
     % PSO Parameters
-    MaxIt = 10;   % Maximum Number of Iterations
-    nPop = 20;     % Population Size (Swarm Size)
-    w = 2;           % Intertia Coefficient
+    MaxIt = 20;   % Maximum Number of Iterations
+    nPop = 30;     % Population Size (Swarm Size)
+    w = 1;           % Intertia Coefficient
     wdamp = 0.95;   % Damping Ratio of Inertia Coefficient
-    c1 = 3;         % Personal Acceleration Coefficient
-    c2 = 4;         % Social Acceleration Coefficient
+    c1 = 2;         % Personal Acceleration Coefficient
+    c2 = 2;         % Social Acceleration Coefficient
     ShowIterInfo = 1;
     
     % Initialization
