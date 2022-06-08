@@ -13,7 +13,7 @@ costeCombustible=precioCombustible*litrosCombustible;
 inversionInicial = costePaneles + costeBateria + precioInversor + precioRegulador;
 costeVariable = costeCombustible + costeMantenimiento;
 ANF = (tasaInteres * (1 + tasaInteres))/((1 + tasaInteres) - 1);
-LCOE = 1000*((inversionInicial*ANF) + costeVariable)/(sum(genrand)*PgBasemax-ENAt);
+LCOE = 1000*((inversionInicial*ANF) + costeVariable)/(sum(genrand)*PgBasemax-mean(Resultados.ENA));
 costeAnual = costePaneles/vidaPv + costeBateria/vidaBat + costeCombustible;
 
 fiabilidad = 100-mean(Resultados.LOLP);
