@@ -1,45 +1,15 @@
 tic;
 
 clc;
-clear all;
 
-capacidadMax = 13000;
-potenciaNominal = 550;      %potencia nominal del panel fotovoltaico
-ktempPotencia = -0.35;      %coeficiente de temperatura porcentual de las celdas /datos tomados de JAsolar JAM72S30-550
-npaneles = 15;
-
-Pdmax = 3000;               %potencia máxima en instalación de demanda
-%% Definición problema
-% Parametros sistema
-rendIn=0.9;
-rendOut=0.9;
-fiabilidadExigible = 90;
-
-% Parametros costes
-precioW=0.4;                % precio de los paneles por W instalado
-vidaPv = 25;
-precioWh=0.5;               % precio de la bateria por Wh de capacidad
-vidaBat = 15;
-precioInversor = 800;
-precioRegulador = 400;
-consumoGrupo = 0.5;         %l/kWh
-precioCombustible = 1.4;    %€/l
-costeMantenimiento = 300;
-tasaInteres = 0.05;
-
-% Parametros simulacion
-aleatorizar = 1;
-iteraciones = 100;
-%método adquisicion de datos 0
-%metodo datos irradiancia 1
-metodo = 1;
-%algoritmo camino óptimo 0
-%algoritmo PSO 1
-optimizacion = 1;
+iteraciones = 1000;
+if optimizacion
+    iteraciones = 100;
+end
 
 inicializar                 % toma datos de consumos, generación y distribuciones de fallo
 %% Optimización por el camino de la mejora óptima
-if optimizacion == 0
+if optimizacion == 0 || optimizacion == 2
     % Sistema inicial
     version = 1;
     Sistema(version).pg = PgBasemax;
@@ -104,10 +74,12 @@ if optimizacion == 0
     Final.fiabilidad = Sistema(version-1).fiabilidad;
     Final.costeAnual = Sistema(version-1).costeAnual;
     Final.LCOE = Sistema(version-1).LCOE;
+    disp('Algoritmo camino óptimo'):
     disp(Final);
-    
-else
-    %% Optimización método PSO
+end  
+%% Optimización método PSO
+
+if optimizacion == 1 || optimizacion == 2
     % Definition
     nVar = 2;
     VarSize = [1 nVar];
@@ -180,32 +152,32 @@ else
             particle(p).Velocity = w*particle(p).Velocity ...
                 + c1*rand(VarSize).*(particle(p).Best.Position - particle(p).Position) ...
                 + c2*rand(VarSize).*(GlobalBest.Position - particle(p).Position);
-                % Update Position
-                particle(p).HistoricPosX(it) = particle(p).Position(1);
-                particle(p).HistoricPosY(it) = particle(p).Position(2);
-                particle(p).Position = particle(p).Position + particle(p).Velocity;
-                % Apply Lower and Upper Bound Limits
-                particle(p).Position(1) = max(particle(p).Position(1), Var1Min);
-                particle(p).Position(1) = min(particle(p).Position(1), Var1Max);
-                particle(p).Position(2) = max(particle(p).Position(2), Var2Min);
-                particle(p).Position(2) = min(particle(p).Position(2), Var2Max);
-                % Evaluation
-                PgBasemax = particle(p).Position(1);
-                capacidadMax = particle(p).Position(2);
-                simulacionMontecarlo;
-                particle(p).Cost = costeAnual;
-                particle(p).Reliability = fiabilidad;
-                % Update Personal Best
-                if (particle(p).Cost < particle(p).Best.Cost)
-                    particle(p).Best.Position = particle(p).Position;
-                    particle(p).Best.Reliability = particle(p).Reliability;
-                    particle(p).Best.Cost = particle(p).Cost;
-                    % Update Global Best
-                    if (particle(p).Best.Cost < GlobalBest.Cost) && (particle(p).Best.Reliability > fiabilidadExigible)
-                        GlobalBest = particle(p).Best;
-                    end  
+            % Update Position
+            particle(p).HistoricPosX(it) = particle(p).Position(1);
+            particle(p).HistoricPosY(it) = particle(p).Position(2);
+            particle(p).Position = particle(p).Position + particle(p).Velocity;
+            % Apply Lower and Upper Bound Limits
+            particle(p).Position(1) = max(particle(p).Position(1), Var1Min);
+            particle(p).Position(1) = min(particle(p).Position(1), Var1Max);
+            particle(p).Position(2) = max(particle(p).Position(2), Var2Min);
+            particle(p).Position(2) = min(particle(p).Position(2), Var2Max);
+            % Evaluation
+            PgBasemax = particle(p).Position(1);
+            capacidadMax = particle(p).Position(2);
+            simulacionMontecarlo;
+            particle(p).Cost = costeAnual;
+            particle(p).Reliability = fiabilidad;
+            % Update Personal Best
+            if (particle(p).Cost < particle(p).Best.Cost)
+                particle(p).Best.Position = particle(p).Position;
+                particle(p).Best.Reliability = particle(p).Reliability;
+                particle(p).Best.Cost = particle(p).Cost;
+                % Update Global Best
+                if (particle(p).Best.Cost < GlobalBest.Cost) && (particle(p).Best.Reliability > fiabilidadExigible)
+                    GlobalBest = particle(p).Best;
                 end
-                
+            end
+            
         end
         
         % Store the Best Cost Value
@@ -224,6 +196,12 @@ else
     out.pop = particle;
     out.BestSol = GlobalBest;
     out.BestCosts = BestCosts;
+    disp('Algoritmo PSO');
+    disp('Best System: ');
+    disp(['Power = ' num2str(out.BestSol.Position(1)) ' W']);
+    disp(['Battery = ' num2str(out.BestSol.Position(2)) ' Wh']);
+    disp(['Annual Approx. Cost = ' num2str(out.BestSol.Cost) ' ' moneda]);
+    disp(['Supply Reliability = ' num2str(out.BestSol.Reliability) ' %']);
     
 end
 toc

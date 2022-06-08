@@ -6,7 +6,7 @@ for iteracion = 1:iteraciones
     almacenarResultados;            % almacena los resultados principales de cada iteración
 end
 costePaneles=precioW*PgBasemax;
-costeBateria=precioWh*capacidadMax;
+costeBateria=precioWh*capacidadMax*vidaPv/vidaBat;
 litrosCombustible=mean(Resultados.ENS)*consumoGrupo/1000;
 costeCombustible=precioCombustible*litrosCombustible;
 
