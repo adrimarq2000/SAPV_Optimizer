@@ -74,7 +74,7 @@ if optimizacion == 0 || optimizacion == 2
     Final.fiabilidad = Sistema(version-1).fiabilidad;
     Final.costeAnual = Sistema(version-1).costeAnual;
     Final.LCOE = Sistema(version-1).LCOE;
-    disp('Algoritmo camino óptimo'):
+    disp('Algoritmo camino óptimo');
     disp(Final);
 end  
 %% Optimización método PSO

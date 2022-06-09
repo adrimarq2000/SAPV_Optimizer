@@ -7,21 +7,20 @@ dataFolder=strcat(projectFolder,"\Data");
 opts = delimitedTextImportOptions("NumVariables", 6);
 
 % Specify range and delimiter
-opts.DataLines = [10, 8769];
-opts.Delimiter = ";";
+opts.DataLines = [10, Inf];
+opts.Delimiter = ",";
 
 % Specify column names and types
-opts.VariableNames = ["Var1", "Irradiancia", "Var3", "Temperatura", "Var5", "Var6"];
-opts.SelectedVariableNames = ["Irradiancia", "Temperatura"];
-opts.VariableTypes = ["string", "double", "string", "double", "string", "string"];
+opts.VariableNames = ["time", "Gi", "H_sun", "T2m", "WS10m", "Int"];
+opts.VariableTypes = ["string", "double", "double", "double", "double", "double"];
 
 % Specify file level properties
 opts.ExtraColumnsRule = "ignore";
 opts.EmptyLineRule = "read";
 
 % Specify variable properties
-opts = setvaropts(opts, ["Var1", "Var3", "Var5", "Var6"], "WhitespaceRule", "preserve");
-opts = setvaropts(opts, ["Var1", "Var3", "Var5", "Var6"], "EmptyFieldRule", "auto");
+opts = setvaropts(opts, "time", "WhitespaceRule", "preserve");
+opts = setvaropts(opts, "time", "EmptyFieldRule", "auto");
 
 % Import the data
 folder=strcat(dataFolder,"\PVGIS.csv");
@@ -34,8 +33,8 @@ temperatura = zeros(744,12);
 for mes = 1:12
     for d = 1:diasmes(mes)
         for h = 1:24
-            irradiancia((d-1)*24+h,mes) = PVGIS.Irradiancia((ref*24)+(24*(d-1))+h);
-            temperatura((d-1)*24+h,mes) = PVGIS.Temperatura((ref*24)+(24*(d-1))+h);  
+            irradiancia((d-1)*24+h,mes) = PVGIS.Gi((ref*24)+(24*(d-1))+h);
+            temperatura((d-1)*24+h,mes) = PVGIS.T2m((ref*24)+(24*(d-1))+h);  
         end
     end
     ref=ref+diasmes(mes);    
