@@ -1,16 +1,12 @@
 tic;
-
 clc;
-
-iteraciones = 1000;
-if optimizacion
-    iteraciones = 100;
-end
-
 inicializar                 % toma datos de consumos, generación y distribuciones de fallo
 %% Optimización por el camino de la mejora óptima
 if optimizacion == 0 || optimizacion == 2
     % Sistema inicial
+    iteraciones = 1000;
+    Resultados = table('Size', [iteraciones 8],'VariableTypes',{'single','double','double','double','double','double','double','double'});
+    Resultados.Properties.VariableNames = {'Iteracion','ENA','HNA','ENS','LOLE','nF','nIDG','LOLP'};
     version = 1;
     Sistema(version).pg = PgBasemax;
     Sistema(version).cap = capacidadMax;
@@ -80,12 +76,16 @@ end
 %% Optimización método PSO
 
 if optimizacion == 1 || optimizacion == 2
+    iteraciones = 100;
+    clear Resultados;
+    Resultados = table('Size', [iteraciones 8],'VariableTypes',{'single','double','double','double','double','double','double','double'});
+    Resultados.Properties.VariableNames = {'Iteracion','ENA','HNA','ENS','LOLE','nF','nIDG','LOLP'};
     % Definition
     nVar = 2;
     VarSize = [1 nVar];
-    Var1Min = 0;
+    Var1Min = potenciaNominal;
     Var1Max = 20000;
-    Var2Min = 0;
+    Var2Min = 500;
     Var2Max = 35000;
     
     
@@ -205,3 +205,4 @@ if optimizacion == 1 || optimizacion == 2
     
 end
 toc
+cd(projectFolder);

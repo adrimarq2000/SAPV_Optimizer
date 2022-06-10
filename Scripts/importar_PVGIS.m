@@ -1,8 +1,6 @@
 %% Import data from text file
 
-projectFolder = fileparts(pwd);
-scriptFolder=strcat(projectFolder,"\Scripts");
-dataFolder=strcat(projectFolder,"\Data");
+
 %% Set up the Import Options and import the data
 opts = delimitedTextImportOptions("NumVariables", 6);
 

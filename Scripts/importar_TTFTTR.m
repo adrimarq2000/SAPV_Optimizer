@@ -1,9 +1,7 @@
 %% Import data from text file
 % Script for importing data from the following text file:
 %    filename: C:\Users\adri5\OneDrive - UPV\Clase\TFG\Matlab\Data\TTF_TTR.csv
-projectFolder = fileparts(pwd);
-scriptFolder=strcat(projectFolder,"\Scripts");
-dataFolder=strcat(projectFolder,"\Data");
+
 %% Set up the Import Options and import the data
 opts = delimitedTextImportOptions("NumVariables", 2, "Encoding", "UTF-8");
 

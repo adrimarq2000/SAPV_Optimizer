@@ -7,9 +7,7 @@ nIDG = zeros([8760 1]);
 
 % aleatorizar generación y disponibilidad de la instalción fotovoltaica
 if aleatorizar
-    cd (scriptFolder);
     [genrand, ONOFF]=aleatorizargeneracion(dataGeneracion,metodo,TTF,TTR);
-    cd (projectFolder);
 end
  % normalizar valores de datos a la instalacion de ensayo
 demanda=dataConsumos/max(dataConsumos)*Pdmax;
