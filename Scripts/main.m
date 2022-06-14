@@ -107,6 +107,7 @@ if optimizacion == 1 || optimizacion == 2
     empty_particle.HistoricPosY = [];
     empty_particle.Velocity = [];
     empty_particle.Cost = [];
+    empty_particle.LCOE = [];
     empty_particle.Reliability = [];
     empty_particle.Best.Position = [];
     empty_particle.Best.Reliability = [];
@@ -130,12 +131,14 @@ if optimizacion == 1 || optimizacion == 2
         capacidadMax = particle(p).Position(2);
         simulacionMontecarlo;
         particle(p).Cost = costeAnual;
+        particle(p).LCOE = LCOE;
         particle(p).Reliability = fiabilidad;
         
         % Update the Personal Best
         particle(p).Best.Position = particle(p).Position;
         particle(p).Best.Reliability = particle(p).Reliability;
         particle(p).Best.Cost = particle(p).Cost;
+        particle(p).Best.LCOE = particle(p).LCOE;
         
         % Update Global Best
         if (particle(p).Best.Cost < GlobalBest.Cost) && (particle(p).Best.Reliability > fiabilidadExigible)
@@ -168,12 +171,14 @@ if optimizacion == 1 || optimizacion == 2
             capacidadMax = particle(p).Position(2);
             simulacionMontecarlo;
             particle(p).Cost = costeAnual;
+            particle(p).LCOE = LCOE;
             particle(p).Reliability = fiabilidad;
             % Update Personal Best
             if (particle(p).Cost < particle(p).Best.Cost)
                 particle(p).Best.Position = particle(p).Position;
                 particle(p).Best.Reliability = particle(p).Reliability;
                 particle(p).Best.Cost = particle(p).Cost;
+                particle(p).Best.LCOE = particle(p).LCOE; 
                 % Update Global Best
                 if (particle(p).Best.Cost < GlobalBest.Cost) && (particle(p).Best.Reliability > fiabilidadExigible)
                     GlobalBest = particle(p).Best;
@@ -203,6 +208,7 @@ if optimizacion == 1 || optimizacion == 2
     disp(['Power = ' num2str(out.BestSol.Position(1)) ' W']);
     disp(['Battery = ' num2str(out.BestSol.Position(2)) ' Wh']);
     disp(['Annual Approx. Cost = ' num2str(out.BestSol.Cost) ' ' moneda]);
+    disp(['LCOE = ' num2str(out.BestSol.LCOE) ' ' moneda]);
     disp(['Supply Reliability = ' num2str(out.BestSol.Reliability) ' %']);
     
 end
