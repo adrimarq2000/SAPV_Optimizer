@@ -1,5 +1,6 @@
 tic;
 clc;
+PgBasemax = potenciaNominal*npaneles;
 inicializar                 % toma datos de consumos, generación y distribuciones de fallo
 %% Optimización por el camino de la mejora óptima
 if optimizacion == 0 || optimizacion == 2
@@ -18,6 +19,7 @@ if optimizacion == 0 || optimizacion == 2
     Sistema(version).LCOE = LCOE;
     
     if Sistema(version).fiabilidad < fiabilidadExigible
+        cd(projectFolder);
         error('ERROR. El sistema inicial no cumple el requisito de fiabilidad.');
     end
     % Mejora continua
