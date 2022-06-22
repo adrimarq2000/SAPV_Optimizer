@@ -28,11 +28,11 @@ if optimizacion == 0 || optimizacion == 2
         Mejora(1).pg = Sistema(version).pg + potenciaNominal;
         Mejora(1).cap = Sistema(version).cap;
         Mejora(2).pg = Sistema(version).pg;
-        Mejora(2).cap = Sistema(version).cap + 500;
+        Mejora(2).cap = Sistema(version).cap + capacidadNominal;
         Mejora(3).pg = Sistema(version).pg - potenciaNominal;
         Mejora(3).cap = Sistema(version).cap;
         Mejora(4).pg = Sistema(version).pg;
-        Mejora(4).cap = Sistema(version).cap - 500;
+        Mejora(4).cap = Sistema(version).cap - capacidadNominal;
         
         for x = 1:4
             PgBasemax = Mejora(x).pg;
